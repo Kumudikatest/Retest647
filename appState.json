@@ -153,7 +153,8 @@
           "stageName": "a",
           "mode": 1
         }
-      }
+      },
+      "undefined": {}
     },
     "customTemplate": {
       "dialect": null,
@@ -188,7 +189,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564464804520
+    "lastSave": 1564465262184
   },
   "VCS_STATE": {
     "provider": "GitHub",
