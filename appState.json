@@ -1,0 +1,166 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "312dd239-db35-474f-a1c3-573fbf344f4b": {
+        "id": "312dd239-db35-474f-a1c3-573fbf344f4b",
+        "parent": null,
+        "name": "Retest647",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+          "0e607080-a3d9-4a57-bfe2-55c38b03d38b"
+        ],
+        "isRemovable": false,
+        "filePath": "Retest647"
+      },
+      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb": {
+        "id": "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+        "parent": "312dd239-db35-474f-a1c3-573fbf344f4b",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "Retest647/lambda.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.expire({\n        clusterIdentifier: 'kcluster',\n        params: [{\n            key: 'ID',\n            seconds: 60\n        }, {\n            key: 'Name',\n            seconds: 120\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n            console.log(error);\n        } else {\n            console.log(response);\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "0e607080-a3d9-4a57-bfe2-55c38b03d38b": {
+        "id": "0e607080-a3d9-4a57-bfe2-55c38b03d38b",
+        "parent": "312dd239-db35-474f-a1c3-573fbf344f4b",
+        "name": "ClusterManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "Retest647/ClusterManager.js",
+        "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"kcluster\"] = {\n        host: process.env.EndPoint_redisKcluster,\n        port: 6379,\n        clusterModeEnabled: false\n    };\n};"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "312dd239-db35-474f-a1c3-573fbf344f4b",
+    "openFiles": [
+      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb"
+    ],
+    "currentFileId": "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+    "resources": {
+      "redis-kcluster": {
+        "name": "redis-kcluster",
+        "type": "Redis",
+        "config": {
+          "clusterConfig": {
+            "engineType": "redis",
+            "clusterSpec": {
+              "instanceFamily": "r5",
+              "nodeTypeClass": "cache.r5.large",
+              "engineVersion": "5.0.4",
+              "clusterModeEnabled": false,
+              "autoFailoverEnabled": true,
+              "numOfShards": 3,
+              "numOfReplicas": 2
+            },
+            "clusterSetting": {
+              "clusterName": "kcluster",
+              "clusterDescription": "kcluster description",
+              "port": 6379
+            },
+            "vpcSpec": {
+              "vpcType": "NEW",
+              "existingVPC": {
+                "vpcID": "",
+                "subNetID": "",
+                "securityGroupID": ""
+              },
+              "newVPC": {
+                "vpcName": "KVPC1",
+                "vpcIPv4CIDR": "10.0.0.0/16",
+                "subnetName": "Ksubnet",
+                "subnetIPv4CIDR": "10.0.0.0/20"
+              }
+            },
+            "host": "",
+            "doesExist": false,
+            "alreadyDeployed": false,
+            "redisClient": "",
+            "external": false
+          },
+          "clusterResources": [],
+          "editMode": false,
+          "enableInject": true,
+          "isGlobalEditMode": false,
+          "isClusterSelectionValid": true,
+          "isNewFromGlobal": false,
+          "mode": 0,
+          "operation": {
+            "str": "REDIS_EXPIRE",
+            "operation": "expire",
+            "displayName": "EXPIRE",
+            "type": {
+              "str": "REDIS_KEYS",
+              "type": "keys",
+              "displayName": "KEYS"
+            }
+          },
+          "params": [],
+          "projectRegion": "us-east-1",
+          "reusableMode": false,
+          "showOperations": true,
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-redis": {
+          "name": "slappforge-sdk-redis",
+          "language": "javascript",
+          "version": "0.0.3",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "Retest647",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1564462070196
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "Retest647",
+      "url": "https://github.com/Kumudikatest/Retest647",
+      "branches": []
+    }
+  }
+}
