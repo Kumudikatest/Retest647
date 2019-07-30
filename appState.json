@@ -9,7 +9,8 @@
         "isDirectory": true,
         "children": [
           "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
-          "0e607080-a3d9-4a57-bfe2-55c38b03d38b"
+          "0e607080-a3d9-4a57-bfe2-55c38b03d38b",
+          "5ca7573a-c108-4b1d-9f99-4251960adf24"
         ],
         "isRemovable": false,
         "filePath": "Retest647"
@@ -23,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "Retest647/lambda.js",
-        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.expire({\n        clusterIdentifier: 'kcluster',\n        params: [{\n            key: 'ID',\n            seconds: 60\n        }, {\n            key: 'Name',\n            seconds: 120\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n            console.log(error);\n        } else {\n            console.log(response);\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.expire({\n        clusterIdentifier: 'kcluster',\n        params: [{\n            key: 'ID',\n            seconds: 60\n        }, {\n            key: 'Name',\n            seconds: 120\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            console.log(error);\n            callback(error);       \n        } else {\n            console.log(response);\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -43,6 +44,25 @@
         "isRemovable": true,
         "filePath": "Retest647/ClusterManager.js",
         "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"kcluster\"] = {\n        host: process.env.EndPoint_redisKcluster,\n        port: 6379,\n        clusterModeEnabled: false\n    };\n};"
+      },
+      "5ca7573a-c108-4b1d-9f99-4251960adf24": {
+        "id": "5ca7573a-c108-4b1d-9f99-4251960adf24",
+        "parent": "312dd239-db35-474f-a1c3-573fbf344f4b",
+        "name": "a.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "Retest647/a.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.rename({\n        clusterIdentifier: 'kcluster',\n        params: [{\n            key: 'ID',\n            name: 'id'\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            console.log(error);\n            callback(error);        \n        } else {\n            console.log(response);\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
       }
     },
     "deletedFiles": [
@@ -52,9 +72,10 @@
     ],
     "rootNode": "312dd239-db35-474f-a1c3-573fbf344f4b",
     "openFiles": [
-      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb"
+      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+      "5ca7573a-c108-4b1d-9f99-4251960adf24"
     ],
-    "currentFileId": "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+    "currentFileId": "5ca7573a-c108-4b1d-9f99-4251960adf24",
     "resources": {
       "redis-kcluster": {
         "name": "redis-kcluster",
@@ -104,54 +125,26 @@
           "enableInject": true,
           "isGlobalEditMode": false,
           "isClusterSelectionValid": true,
-          "isNewFromGlobal": true,
+          "isNewFromGlobal": false,
           "mode": 1,
           "operation": {
-            "str": "REDIS_STRLEN",
-            "operation": "strlen",
-            "displayName": "STRLEN",
+            "str": "REDIS_RENAME",
+            "operation": "rename",
+            "displayName": "RENAME",
             "type": {
-              "str": "REDIS_STRINGS",
-              "type": "strings",
-              "displayName": "STRINGS"
+              "str": "REDIS_KEYS",
+              "type": "keys",
+              "displayName": "KEYS"
             }
           },
           "params": [],
           "projectRegion": "us-east-1",
           "reusableMode": false,
-          "showOperations": "kcluster",
+          "showOperations": true,
           "validator": {
             "validatableFields": {},
             "validity": true
           }
-        }
-      },
-      "apigusEast1PrototypeCityPairsAPIairfaresput": {
-        "name": "apigusEast1PrototypeCityPairsAPIairfaresput",
-        "type": "API_GATEWAY",
-        "config": {
-          "selectedRegion": "us-east-1",
-          "apiMode": 1,
-          "apiName": "Prototype City Pairs API",
-          "apiVersion": "0.0.0",
-          "apiId": "hjc0s1ph38",
-          "endpointType": "REGIONAL",
-          "rootResourceId": "skc7z8diq5",
-          "existingResources": {
-            "/airfares": "a44szi",
-            "/airfares/{id}": "mtiqre",
-            "/": "skc7z8diq5"
-          },
-          "resourceMode": 1,
-          "resourcePath": "/airfares",
-          "resourceName": "airfares",
-          "resourceId": "a44szi",
-          "restMethod": "PUT",
-          "proxyIntegration": false,
-          "enableCORS": false,
-          "stageMode": 0,
-          "stageName": "a",
-          "mode": 1
         }
       }
     },
@@ -188,7 +181,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564465951380
+    "lastSave": 1564474855007
   },
   "VCS_STATE": {
     "provider": "GitHub",

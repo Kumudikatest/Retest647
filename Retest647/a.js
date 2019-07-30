@@ -4,19 +4,16 @@ const redis = new SL_REDIS.Redis(clusterManager);
 
 exports.handler = function (event, context, callback) {
     // You must always quit the redis client after it's used
-    redis.expire({
+    redis.rename({
         clusterIdentifier: 'kcluster',
         params: [{
             key: 'ID',
-            seconds: 60
-        }, {
-            key: 'Name',
-            seconds: 120
+            name: 'id'
         }]
     }, function (error, response, redisClient) {
         if (error) {
             console.log(error);
-            callback(error);       
+            callback(error);        
         } else {
             console.log(response);
             redisClient.quit();
