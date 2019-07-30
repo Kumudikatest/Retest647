@@ -2,7 +2,10 @@
   "name": "Retest647",
   "version": "1.0.0",
   "dependencies": {
-    "slappforge-sdk-redis": "0.0.3"
+    "slappforge-sdk-redis": "0.0.3",
+    "slappforge-sdk-aws": "0.0.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "aws-sdk": "2.176.0"
+  }
 }
