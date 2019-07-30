@@ -9,7 +9,8 @@
         "isDirectory": true,
         "children": [
           "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
-          "0e607080-a3d9-4a57-bfe2-55c38b03d38b"
+          "0e607080-a3d9-4a57-bfe2-55c38b03d38b",
+          "694b9e5c-195a-4a4f-9910-627206bdc369"
         ],
         "isRemovable": false,
         "filePath": "Retest647"
@@ -43,14 +44,41 @@
         "isRemovable": true,
         "filePath": "Retest647/ClusterManager.js",
         "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"kcluster\"] = {\n        host: process.env.EndPoint_redisKcluster,\n        port: 6379,\n        clusterModeEnabled: false\n    };\n};"
+      },
+      "694b9e5c-195a-4a4f-9910-627206bdc369": {
+        "id": "694b9e5c-195a-4a4f-9910-627206bdc369",
+        "parent": "312dd239-db35-474f-a1c3-573fbf344f4b",
+        "name": "new.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "Retest647/new.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.rename({\n        clusterIdentifier: 'kcluster',\n        params: [{\n            key: 'ID',\n            name: 'id'\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n            console.log(error);\n        } else {\n            console.log(response);\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": [],
+          "vpc": "vpc-03bd7d42bc720c72c",
+          "subNets": [
+            "subnet-0314fb758c9fc3105"
+          ],
+          "secGroups": [
+            "sg-072f0cc8c760679c9"
+          ]
+        },
+        "triggers": []
       }
     },
     "deletedFiles": [],
     "rootNode": "312dd239-db35-474f-a1c3-573fbf344f4b",
     "openFiles": [
-      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb"
+      "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+      "694b9e5c-195a-4a4f-9910-627206bdc369"
     ],
-    "currentFileId": "fad332cc-29dc-4c8a-9e57-f6378fa9fdcb",
+    "currentFileId": "694b9e5c-195a-4a4f-9910-627206bdc369",
     "resources": {
       "redis-kcluster": {
         "name": "redis-kcluster",
@@ -153,14 +181,19 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564462070196
+    "lastSave": 1564463545380
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
       "name": "Retest647",
       "url": "https://github.com/Kumudikatest/Retest647",
-      "branches": []
+      "branches": [
+        {
+          "name": "master",
+          "hash": "8bcdf26fe695e109cf6e5d507c8d2c897c6aa3ec"
+        }
+      ]
     }
   }
 }
