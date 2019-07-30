@@ -153,8 +153,7 @@
           "stageName": "a",
           "mode": 1
         }
-      },
-      "undefined": {}
+      }
     },
     "customTemplate": {
       "dialect": null,
